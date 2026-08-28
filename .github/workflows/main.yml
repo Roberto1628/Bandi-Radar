@@ -1,0 +1,19 @@
+name: Bandi Radar
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Avvio Radar
+        run: |
+          echo "================================="
+          echo "       BANDI RADAR AVVIATO"
+          echo "================================="
+          echo "Data: $(date)"
+          echo "Il sistema è operativo."
