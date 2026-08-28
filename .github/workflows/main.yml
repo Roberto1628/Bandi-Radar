@@ -9,19 +9,19 @@ jobs:
   radar:
     runs-on: ubuntu-latest
 
-steps:
-  - name: Scarica repository
-    uses: actions/checkout@v4
+    steps:
+      - name: Scarica repository
+        uses: actions/checkout@v4
 
-  - name: Configura Python
-    uses: actions/setup-python@v5
-    with:
-      python-version: "3.12"
+      - name: Configura Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-  - name: Installa dipendenze
-    run: |
-      pip install requests beautifulsoup4
+      - name: Installa dipendenze
+        run: |
+          pip install requests beautifulsoup4
 
-  - name: Avvia Bandi Radar
-    run: |
-      python radar.py
+      - name: Avvia Bandi Radar
+        run: |
+          python radar.py
