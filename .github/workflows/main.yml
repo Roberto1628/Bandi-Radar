@@ -20,8 +20,10 @@ jobs:
 
       - name: Installa dipendenze
         run: |
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 gspread google-auth
 
       - name: Avvia Bandi Radar
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           python radar.py
