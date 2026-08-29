@@ -124,25 +124,32 @@ def main():
     print(f"Nuove opportunità da aggiungere: {len(nuove)}")
     print()
 
+    righe_da_scrivere = []
     for r in nuove:
         riga = [
-            "",                                   # A: ID (vuoto per ora)
-            r["nome"],                             # B: Titolo
-            "Invitalia",                            # C: Ente
-            r["url"],                               # D: Link ufficiale
-            "",                                     # E: Data pubblicazione
-            "",                                     # F: Scadenza
-            r["testo"][:500],                       # G: Sintesi requisiti (grezza, max 500 char)
-            "",                                     # H: Stato Sportee
-            "",                                     # I: Motivazione Sportee
-            "",                                     # J: Stato Futura Impresa
-            "",                                     # K: Motivazione Futura Impresa
-            datetime.now().strftime("%Y-%m-%d %H:%M"),  # L: Data ultima verifica
-            "Invitalia (scraping automatico)",      # M: Fonte
-            "",                                     # N: Note
+            "",                                          # A: ID (vuoto per ora)
+            r["nome"],                                    # B: Titolo
+            "Invitalia",                                   # C: Ente
+            r["url"],                                       # D: Link ufficiale
+            "",                                             # E: Data pubblicazione
+            "",                                             # F: Scadenza
+            r["testo"][:500],                                # G: Sintesi requisiti (grezza, max 500 char)
+            "",                                              # H: Stato Sportee
+            "",                                              # I: Motivazione Sportee
+            "",                                              # J: Stato Futura Impresa
+            "",                                              # K: Motivazione Futura Impresa
+            datetime.now().strftime("%Y-%m-%d %H:%M"),      # L: Data ultima verifica
+            "Invitalia (scraping automatico)",              # M: Fonte
+            "",                                              # N: Note
         ]
-        sheet.append_row(riga)
-        print(f"Aggiunto: {r['nome']}")
+        righe_da_scrivere.append(riga)
+
+    if righe_da_scrivere:
+        sheet.append_rows(righe_da_scrivere)
+        for r in nuove:
+            print(f"Aggiunto: {r['nome']}")
+    else:
+        print("Nessuna nuova opportunità da aggiungere.")
 
     print()
     print("Completato.")
