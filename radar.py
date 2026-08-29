@@ -111,7 +111,43 @@ def cerca_opportunita():
 def configura_gemini():
     api_key = os.environ["GEMINI_API_KEY"]
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel("gemini-2.5-flash")
+
+    # Stampiamo i modelli realmente disponibili per questa chiave,
+    # utile per diagnosticare eventuali problemi.
+    print("Modelli disponibili per questa chiave API:")
+    nomi_disponibili = []
+    try:
+        for m in genai.list_models():
+            if "generateContent" in m.supported_generation_methods:
+                nomi_disponibili.append(m.name)
+                print(f"  - {m.name}")
+    except Exception as e:
+        print(f"  (impossibile elencare i modelli: {e})")
+    print()
+
+    # Proviamo alcuni nomi comuni, in ordine di preferenza
+    candidati = [
+        "gemini-2.5-flash",
+        "models/gemini-2.5-flash",
+        "gemini-flash-latest",
+        "gemini-2.0-flash",
+        "models/gemini-2.0-flash",
+        "gemini-1.5-flash",
+        "models/gemini-1.5-flash",
+    ]
+
+    for nome in candidati:
+        try:
+            model = genai.GenerativeModel(nome)
+            # Test rapido per verificare che funzioni davvero
+            test = model.generate_content("Rispondi solo con: OK")
+            print(f"Modello funzionante trovato: {nome}")
+            return model
+        except Exception as e:
+            print(f"Tentativo fallito con '{nome}': {type(e).__name__}")
+
+    raise Exception("Nessun modello Gemini funzionante trovato tra i candidati.")
+
 
 
 def costruisci_prompt(profilo_sportee, nome_bando, testo_bando):
