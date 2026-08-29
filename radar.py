@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-URL = "https://www.invitalia.it/cosa-facciamo/rafforziamo-le-imprese/incentivi-e-strumenti"
+URL = "https://www.invitalia.it/wizard-risultati-incentivi"
 
 headers = {
     "User-Agent": "Mozilla/5.0 (compatible; BandiRadar/1.0)"
