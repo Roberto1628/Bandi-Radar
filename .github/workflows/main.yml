@@ -20,10 +20,11 @@ jobs:
 
       - name: Installa dipendenze
         run: |
-          pip install requests beautifulsoup4 gspread google-auth
+          pip install requests beautifulsoup4 gspread google-auth google-generativeai
 
       - name: Avvia Bandi Radar
         env:
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           python radar.py
