@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from urllib.parse import urljoin
 
 URL = "https://www.invitalia.it/wizard-risultati-incentivi"
 
@@ -8,11 +9,11 @@ headers = {
     "User-Agent": "Mozilla/5.0 (compatible; BandiRadar/1.0)"
 }
 
-print("=" * 50)
+print("=" * 60)
 print("BANDI RADAR")
-print("=" * 50)
-print(f"Controllo fonte: Invitalia")
-print(f"Data: {datetime.now()}")
+print("=" * 60)
+print("Fonte: Invitalia")
+print(f"Controllo: {datetime.now()}")
 print()
 
 try:
@@ -23,31 +24,60 @@ try:
 
     print("Connessione riuscita.")
     print()
-    print("Titoli/opportunità individuate:")
-    print("-" * 50)
 
-    links = soup.find_all("a")
+    # Cerchiamo i titoli delle opportunità.
+    # Nella pagina Invitalia sono presenti come titoli H3.
+    cards = soup.find_all("h3")
 
-    trovati = 0
+    risultati = []
+    link_visti = set()
 
-    for link in links:
-        testo = link.get_text(" ", strip=True)
+    for titolo in cards:
+
+        nome = titolo.get_text(" ", strip=True)
+
+        link = titolo.find("a")
+
+        if not link:
+            continue
+
         href = link.get("href")
 
-        if testo and href and len(testo) > 10:
-            if "incentiv" in testo.lower() or "finanzi" in testo.lower() or "imprese" in testo.lower():
-                if href.startswith("/"):
-                    href = "https://www.invitalia.it" + href
+        if not href:
+            continue
 
-                print(f"- {testo}")
-                print(f"  {href}")
-                print()
+        url = urljoin(URL, href)
 
-                trovati += 1
+        # Evita duplicati
+        if url in link_visti:
+            continue
 
-    print("-" * 50)
-    print(f"Totale elementi individuati: {trovati}")
+        link_visti.add(url)
+
+        # Cerchiamo il contenitore dell'opportunità
+        contenitore = titolo.parent
+
+        testo = contenitore.get_text(" ", strip=True)
+
+        risultati.append({
+            "nome": nome,
+            "url": url,
+            "testo": testo
+        })
+
+    print("=" * 60)
+    print(f"OPPORTUNITÀ INDIVIDUATE: {len(risultati)}")
+    print("=" * 60)
+    print()
+
+    for i, risultato in enumerate(risultati, start=1):
+
+        print(f"[{i}] {risultato['nome']}")
+        print(f"URL: {risultato['url']}")
+        print(f"Informazioni: {risultato['testo']}")
+        print("-" * 60)
 
 except Exception as e:
     print("ERRORE:")
+    print(type(e).__name__)
     print(e)
