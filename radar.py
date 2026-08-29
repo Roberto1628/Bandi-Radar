@@ -14,7 +14,7 @@ from google.oauth2.service_account import Credentials
 
 URL = "https://www.invitalia.it/wizard-risultati-incentivi"
 SHEET_ID = "1uL7mE-0hmDygO9ffBR3Rb0eDq5xG4VBgwMYNVSNcFoE"
-FOGLIO_NOME = "Bandi"
+FOGLIO_NOME = "BANDI"
 
 headers = {
     "User-Agent": "Mozilla/5.0 (compatible; BandiRadar/1.0)"
