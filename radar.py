@@ -24,7 +24,7 @@ headers = {
 }
 
 # Pausa tra una chiamata a Gemini e l'altra, per rispettare i limiti gratuiti
-PAUSA_SECONDI_GEMINI = 5
+PAUSA_SECONDI_GEMINI = 7
 
 # ============================================================
 # CONNESSIONE A GOOGLE SHEETS
